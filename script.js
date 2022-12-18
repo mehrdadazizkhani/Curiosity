@@ -7,36 +7,36 @@ const spaceCraft = document.querySelector(".space-craft")
 const fire = document.querySelector(".fire-container")
 const sun = document.querySelector(".sun")
 
-let lauchTimer = 11
+let lauchTimer = 3
 let isPaused = true
+themeMusic.play()
 
 launchBtn.addEventListener("click", openFullscreen)
 
 function openFullscreen() {
 
-  themeMusic.play()
-
-  // if (mainbody.requestFullscreen) {
-  //   mainbody.requestFullscreen();
-  // } else if (mainbody.webkitRequestFullscreen) { /* Safari */
-  //   mainbody.webkitRequestFullscreen();
-  // } else if (mainbody.msRequestFullscreen) { /* IE11 */
-  //   mainbody.msRequestFullscreen();
-  // }
   launchBtn.removeEventListener("click", openFullscreen)
+
+  if (mainbody.requestFullscreen) {
+    mainbody.requestFullscreen();
+  } else if (mainbody.webkitRequestFullscreen) { /* Safari */
+    mainbody.webkitRequestFullscreen();
+  } else if (mainbody.msRequestFullscreen) { /* IE11 */
+    mainbody.msRequestFullscreen();
+  }
   sun.style.top = "120vh";
   spaceCraft.style.top = "calc(70vh - 150px)"
   launchBtn.style.top = "calc(90vh - 110px)";
-  launchBtn.innerHTML = "ready to launch";
+  launchBtn.innerHTML = "launch";
   
   launchBtn.addEventListener("click", lauchHandler)
 }
 let timer
 
 function lauchHandler () {
+  launchBtn.removeEventListener("click", lauchHandler)
   isPaused = false
   timer = setInterval(ignitionHandler,1000) 
-  launchBtn.removeEventListener("click", lauchHandler)
   launchBtn.addEventListener("click", abortHandler)
 }
 
@@ -50,8 +50,9 @@ function ignitionHandler () {
   if (lauchTimer > 0 && !isPaused) {
     lauchTimer --
     launchBtn.innerHTML = `${lauchTimer} <span class="abort">abort</span>`
+    beep.play()
   } else {
-    root.style.setProperty("--rocket-speed", "600s")
+    root.style.setProperty("--rocket-speed", "1000s")
     isPaused = true
     fire.style.opacity = "1"
     launchBtn.innerHTML = "restart mission"
@@ -61,8 +62,9 @@ function ignitionHandler () {
 }
 
 function restartHandler () {
+  launchBtn.removeEventListener("click", restartHandler)
   root.style.setProperty("--rocket-speed", "3000s")
-  lauchTimer = 11
+  lauchTimer = 3
   clearInterval(timer)
   sun.style.top = "65vh";
   spaceCraft.style.top = "calc(0vh - 500px)"
