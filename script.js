@@ -1,39 +1,40 @@
 const root = document.querySelector(":root")
 const mainbody = document.querySelector("body")
-const themeMusic = new Audio('./home.mp3')
-const beep = new Audio('./beep.mp3')
+const beep = new Audio('./soundeffects/beep.mp3')
 const launchBtn = document.querySelector('.launch-btn')
 const spaceCraft = document.querySelector(".space-craft")
 const fire = document.querySelector(".fire-container")
 const sun = document.querySelector(".sun")
+const distanceDisplay = document.querySelector(".distance")
+const distanceTitle = document.querySelector(".distance-title")
 
-let lauchTimer = 3
+let lauchTimer = 11
 let isPaused = true
-themeMusic.play()
+let finalDistance = 600000
+let startDistance = 0
+
+let timer
+let distance
+
+distanceDisplay.classList.add("hide")
+distanceTitle.classList.add("hide")
 
 launchBtn.addEventListener("click", openFullscreen)
 
 function openFullscreen() {
 
   launchBtn.removeEventListener("click", openFullscreen)
-
-  if (mainbody.requestFullscreen) {
-    mainbody.requestFullscreen();
-  } else if (mainbody.webkitRequestFullscreen) { /* Safari */
-    mainbody.webkitRequestFullscreen();
-  } else if (mainbody.msRequestFullscreen) { /* IE11 */
-    mainbody.msRequestFullscreen();
-  }
   sun.style.top = "120vh";
-  spaceCraft.style.top = "calc(70vh - 150px)"
+  spaceCraft.style.top = "calc(55vh - 150px)"
   launchBtn.style.top = "calc(90vh - 110px)";
   launchBtn.innerHTML = "launch";
   
   launchBtn.addEventListener("click", lauchHandler)
 }
-let timer
+
 
 function lauchHandler () {
+  distanceTitle.classList.remove("hide")
   launchBtn.removeEventListener("click", lauchHandler)
   isPaused = false
   timer = setInterval(ignitionHandler,1000) 
@@ -48,24 +49,40 @@ function abortHandler () {
 
 function ignitionHandler () {
   if (lauchTimer > 0 && !isPaused) {
+    beep.play()
     lauchTimer --
     launchBtn.innerHTML = `${lauchTimer} <span class="abort">abort</span>`
-    beep.play()
   } else {
     root.style.setProperty("--rocket-speed", "1000s")
     isPaused = true
     fire.style.opacity = "1"
     launchBtn.innerHTML = "restart mission"
+    clearInterval(distance)
+    distance = setInterval(distanceHandler,1)
     launchBtn.removeEventListener("click", abortHandler)
     launchBtn.addEventListener("click", restartHandler)
   }
 }
 
+function distanceHandler () {
+  distanceDisplay.classList.remove("hide")
+  distanceTitle.classList.add("hide")
+  if(startDistance < finalDistance) {
+    distanceDisplay.innerHTML = `${startDistance} km from sun`
+    startDistance += 100
+  } else {
+    distanceDisplay.innerHTML = "deep space"
+  }
+}
+
 function restartHandler () {
   launchBtn.removeEventListener("click", restartHandler)
+  distanceDisplay.classList.add("hide")
   root.style.setProperty("--rocket-speed", "3000s")
-  lauchTimer = 3
+  lauchTimer = 11
+  clearInterval(distance)
   clearInterval(timer)
+  startDistance = 0
   sun.style.top = "65vh";
   spaceCraft.style.top = "calc(0vh - 500px)"
   launchBtn.style.top = "calc(50vh - 70px)";

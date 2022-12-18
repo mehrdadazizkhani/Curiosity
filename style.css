@@ -129,7 +129,6 @@ body {
 }
 
 .distance {
-  /* display: none; */
   margin-right: 8px;
 }
 
@@ -251,11 +250,21 @@ body {
   }
 
   .sun {
-    top: 80vh;
+    top: 65vh;
+    animation: sun 100s infinite linear;
   }
 
   .distance-container {
     flex-direction: column;
     z-index: 50;
   }
+
+  .space-craft {
+    transform: scale(0.6);
+  }
+}
+
+
+.hide {
+    display: none;
 }
