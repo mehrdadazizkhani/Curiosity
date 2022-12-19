@@ -156,7 +156,7 @@ body {
   background: transparent;
   font-size: 1.5rem;
   transition: all 2s ease-out;
-  z-index: 50;
+  z-index: 90;
 }
 
 .launch-btn:before {
@@ -397,6 +397,7 @@ img[alt~="pluto"] {
 .status {
   opacity: 0;
   display: flex;
+  text-transform: uppercase;
   justify-content: center;
   align-items: center;
   font-size: 3rem;

@@ -42,7 +42,7 @@ function openFullscreen() {
   launchBtn.removeEventListener("click", openFullscreen)
   sun.style.top = "120vh";
   spaceCraft.style.top = "calc(55vh - 150px)"
-  launchBtn.style.top = "calc(90vh - 70px)";
+  launchBtn.style.top = "calc(90vh - 120px)";
   launchBtn.innerHTML = "launch";
   
   launchBtn.addEventListener("click", lauchHandler)
