@@ -129,7 +129,7 @@ function distanceHandler () {
   distanceTitle.classList.add("hide")
   if(startDistance < finalDistance) {
     distanceDisplay.innerHTML = `${startDistance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} km from the sun`
-    startDistance += 20000
+    startDistance += 40000
   } else {
     distanceDisplay.innerHTML = "deep space"
   }
